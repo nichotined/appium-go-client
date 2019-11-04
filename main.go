@@ -24,7 +24,7 @@ func main() {
 
 	element := driver.FindElement("id", "input_field")
 	element.Click()
-	element.SendKeys("081368668543")
+	element.SendKeys("")
 	fmt.Println(element.Location())
 	fmt.Println(element.IsDisplayed())
 	fmt.Println(element.GetText())

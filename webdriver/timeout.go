@@ -1,4 +1,4 @@
-package driver
+package webdriver
 
 // ImplicitWait ...
 func (d *Driver) ImplicitWait(seconds int) {

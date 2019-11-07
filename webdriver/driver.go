@@ -1,4 +1,4 @@
-package driver
+package webdriver
 
 import (
 	// "encoding/json"
@@ -21,14 +21,14 @@ type AppiumRequest struct {
 	Path   string
 }
 
-// CreateDriver ...
-func CreateDriver(url string, capabilities map[string]interface{}) *Driver {
-	newDriver := &Driver{
+// Create ...
+func Create(url string, capabilities map[string]interface{}) (driver *Driver) {
+	driver = &Driver{
 		client.CreateClient(url),
 		capabilities,
 		"",
 	}
-	return newDriver
+	return
 }
 
 func doAppiumRequest(appiumReq *AppiumRequest, c *client.Client, name string) *client.Response {

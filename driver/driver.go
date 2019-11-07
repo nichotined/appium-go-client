@@ -50,7 +50,7 @@ func (d *Driver) Init() {
 	appiumReq := &AppiumRequest{
 		"POST",
 		d.DesiredCapabilities,
-		"/wd/hub/session",
+		"/session",
 	}
 
 	resp := doAppiumRequest(appiumReq, d.Client, "desiredCapabilities")
@@ -73,7 +73,7 @@ func (d *Driver) Close() {
 	appiumReq := &AppiumRequest{
 		"DELETE",
 		nil,
-		"/wd/hub/session/" + d.SessionID,
+		"/session/" + d.SessionID,
 	}
 
 	resp := doAppiumRequest(appiumReq, d.Client, "")
@@ -89,7 +89,7 @@ func (d *Driver) GetPageSource() string {
 	appiumReq := &AppiumRequest{
 		"GET",
 		nil,
-		"/wd/hub/session/" + d.SessionID + "/source",
+		"/session/" + d.SessionID + "/source",
 	}
 
 	resp := doAppiumRequest(appiumReq, d.Client, "")
@@ -111,7 +111,7 @@ func (d *Driver) UpdateSettings(settings map[string]interface{}) {
 	appiumReq := &AppiumRequest{
 		"POST",
 		reqBody,
-		"/wd/hub/session/" + d.SessionID + "/appium/settings",
+		"/session/" + d.SessionID + "/appium/settings",
 	}
 
 	resp := doAppiumRequest(appiumReq, d.Client, "")
@@ -127,7 +127,7 @@ func (d *Driver) GetSettings() string {
 	appiumReq := &AppiumRequest{
 		"GET",
 		nil,
-		"/wd/hub/session/" + d.SessionID + "/appium/settings",
+		"/session/" + d.SessionID + "/appium/settings",
 	}
 
 	resp := doAppiumRequest(appiumReq, d.Client, "")
@@ -156,7 +156,7 @@ func (d *Driver) StartActivity(appPackage string, appActivity string) {
 	appiumReq := &AppiumRequest{
 		"POST",
 		reqBody,
-		"/wd/hub/session/" + d.SessionID + "/appium/device/start_activity",
+		"/session/" + d.SessionID + "/appium/device/start_activity",
 	}
 
 	res := doAppiumRequest(appiumReq, d.Client, "")

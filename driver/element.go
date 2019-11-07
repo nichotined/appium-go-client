@@ -3,6 +3,7 @@ package driver
 import (
 	"appium-go-client/jsonutils"
 	"encoding/json"
+	"fmt"
 	"strconv"
 )
 
@@ -22,7 +23,7 @@ func (d *Driver) FindElement(elBy string, elName string) *Element {
 	appiumReq := &AppiumRequest{
 		"POST",
 		reqBody,
-		"/wd/hub/session/" + d.SessionID + "/element",
+		"/session/" + d.SessionID + "/element",
 	}
 
 	resp := doAppiumRequest(appiumReq, d.Client, "")
@@ -43,12 +44,48 @@ func (d *Driver) FindElement(elBy string, elName string) *Element {
 	return &Element{d, value["ELEMENT"]}
 }
 
+// FindElements ...
+func (d *Driver) FindElements(elBy string, elName string) (elements []Element) {
+	reqBody := map[string]interface{}{
+		"using": elBy,
+		"value": elName,
+	}
+
+	appiumReq := &AppiumRequest{
+		"POST",
+		reqBody,
+		"/session/" + d.SessionID + "/elements",
+	}
+
+	resp := doAppiumRequest(appiumReq, d.Client, "")
+
+	if resp.StatusCode != 200 {
+		statusCodeErrorHandler(resp.StatusCode, 404, "Driver: the driver was unable to find an element on the screen")
+		statusCodeErrorHandler(resp.StatusCode, 400, "Driver: an invalid argument was passed to the findElement function")
+	}
+
+	mapBody := jsonutils.JSONToMap(resp.Body)
+
+	var val []map[string]interface{}
+
+	if err := json.Unmarshal([]byte(*mapBody["value"]), &val); err != nil {
+		panic(err)
+	}
+
+	for _, el := range val {
+		element := Element{d, fmt.Sprintf("%v", el["ELEMENT"])}
+		elements = append(elements, element)
+	}
+
+	return
+}
+
 // Click ...
 func (el *Element) Click() {
 	appiumReq := &AppiumRequest{
 		"POST",
 		nil,
-		"/wd/hub/session/" + el.Driver.SessionID + "/element/" + el.ID + "/click",
+		"/session/" + el.Driver.SessionID + "/element/" + el.ID + "/click",
 	}
 	resp := doAppiumRequest(appiumReq, el.Driver.Client, "")
 
@@ -67,7 +104,7 @@ func (el *Element) SendKeys(keys string) {
 	appiumReq := &AppiumRequest{
 		"POST",
 		reqBody,
-		"/wd/hub/session/" + el.Driver.SessionID + "/element/" + el.ID + "/value",
+		"/session/" + el.Driver.SessionID + "/element/" + el.ID + "/value",
 	}
 
 	resp := doAppiumRequest(appiumReq, el.Driver.Client, "")
@@ -82,7 +119,7 @@ func (el *Element) Location() string {
 	appiumReq := &AppiumRequest{
 		"GET",
 		nil,
-		"/wd/hub/session/" + el.Driver.SessionID + "/element/" + el.ID + "/location",
+		"/session/" + el.Driver.SessionID + "/element/" + el.ID + "/location",
 	}
 
 	resp := doAppiumRequest(appiumReq, el.Driver.Client, "")
@@ -99,7 +136,7 @@ func (el *Element) IsDisplayed() bool {
 	appiumReq := &AppiumRequest{
 		"GET",
 		nil,
-		"/wd/hub/session/" + el.Driver.SessionID + "/element/" + el.ID + "/displayed",
+		"/session/" + el.Driver.SessionID + "/element/" + el.ID + "/displayed",
 	}
 
 	resp := doAppiumRequest(appiumReq, el.Driver.Client, "")
@@ -117,7 +154,7 @@ func (el *Element) GetText() string {
 	appiumReq := &AppiumRequest{
 		"GET",
 		nil,
-		"/wd/hub/session/" + el.Driver.SessionID + "/element/" + el.ID + "/text",
+		"/session/" + el.Driver.SessionID + "/element/" + el.ID + "/text",
 	}
 
 	resp := doAppiumRequest(appiumReq, el.Driver.Client, "")
@@ -134,7 +171,7 @@ func (el *Element) GetAttribute(attributeName string) string {
 	appiumReq := &AppiumRequest{
 		"GET",
 		nil,
-		"/wd/hub/session/" + el.Driver.SessionID + "/element/" + el.ID + "/attribute/" + attributeName,
+		"/session/" + el.Driver.SessionID + "/element/" + el.ID + "/attribute/" + attributeName,
 	}
 
 	resp := doAppiumRequest(appiumReq, el.Driver.Client, "")

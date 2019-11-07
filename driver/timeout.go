@@ -9,7 +9,7 @@ func (d *Driver) ImplicitWait(seconds int) {
 	appiumReq := AppiumRequest{
 		"POST",
 		reqBody,
-		"/wd/hub/session/" + d.SessionID + "/timeouts/implicit_wait",
+		"/session/" + d.SessionID + "/timeouts/implicit_wait",
 	}
 
 	resp := doAppiumRequest(&appiumReq, d.Client, "")

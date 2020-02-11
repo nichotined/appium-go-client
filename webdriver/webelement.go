@@ -2,6 +2,7 @@ package webdriver
 
 import (
 	"appium-go-client/jsonutils"
+	"appium-go-client/property"
 	"encoding/json"
 	"fmt"
 	"strconv"
@@ -21,7 +22,7 @@ func (d *Driver) FindElement(elBy string, elName string) *Element {
 	}
 
 	appiumReq := &AppiumRequest{
-		"POST",
+		property.Post,
 		reqBody,
 		"/session/" + d.SessionID + "/element",
 	}
@@ -52,7 +53,7 @@ func (d *Driver) FindElements(elBy string, elName string) (elements []Element) {
 	}
 
 	appiumReq := &AppiumRequest{
-		"POST",
+		property.Post,
 		reqBody,
 		"/session/" + d.SessionID + "/elements",
 	}
@@ -83,9 +84,9 @@ func (d *Driver) FindElements(elBy string, elName string) (elements []Element) {
 // Click ...
 func (el *Element) Click() {
 	appiumReq := &AppiumRequest{
-		"POST",
+		property.Post,
 		nil,
-		"/session/" + el.Driver.SessionID + "/element/" + el.ID + "/click",
+		fmt.Sprintf("/session/%s/element%s/click", el.Driver.SessionID, el.ID)
 	}
 	resp := doAppiumRequest(appiumReq, el.Driver.Client, "")
 
@@ -102,9 +103,9 @@ func (el *Element) SendKeys(keys string) {
 	}
 
 	appiumReq := &AppiumRequest{
-		"POST",
+		property.Post,
 		reqBody,
-		"/session/" + el.Driver.SessionID + "/element/" + el.ID + "/value",
+		fmt.Sprintf("/session/%s/element%s/value", el.Driver.SessionID, el.ID)
 	}
 
 	resp := doAppiumRequest(appiumReq, el.Driver.Client, "")
@@ -117,7 +118,7 @@ func (el *Element) SendKeys(keys string) {
 // Location ...
 func (el *Element) Location() string {
 	appiumReq := &AppiumRequest{
-		"GET",
+		property.Get,
 		nil,
 		"/session/" + el.Driver.SessionID + "/element/" + el.ID + "/location",
 	}
@@ -134,7 +135,7 @@ func (el *Element) Location() string {
 // IsDisplayed ...
 func (el *Element) IsDisplayed() bool {
 	appiumReq := &AppiumRequest{
-		"GET",
+		property.Get,
 		nil,
 		"/session/" + el.Driver.SessionID + "/element/" + el.ID + "/displayed",
 	}
@@ -152,7 +153,7 @@ func (el *Element) IsDisplayed() bool {
 // GetText ...
 func (el *Element) GetText() string {
 	appiumReq := &AppiumRequest{
-		"GET",
+		property.Get,
 		nil,
 		"/session/" + el.Driver.SessionID + "/element/" + el.ID + "/text",
 	}
@@ -169,7 +170,7 @@ func (el *Element) GetText() string {
 // GetAttribute ...
 func (el *Element) GetAttribute(attributeName string) string {
 	appiumReq := &AppiumRequest{
-		"GET",
+		property.Get,
 		nil,
 		"/session/" + el.Driver.SessionID + "/element/" + el.ID + "/attribute/" + attributeName,
 	}

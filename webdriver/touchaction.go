@@ -9,25 +9,25 @@ type TouchActionParams struct {
 }
 
 // Tap ...
-func (d *Driver) Tap(touchActionParams TouchActionParams) {
-	touchActionParams.elementID
-}
+// func (d *Driver) Tap(touchActionParams TouchActionParams) {
+// 	touchActionParams.elementID
+// }
 
-func getOptions (touchActionParams TouchActionParams) {
-	var opts := {}
+// func getOptions(touchActionParams TouchActionParams) {
+// 	var opts interface{}
 
-	if touchActionParams.elementID != nil {
-		opts["element"] = touchActionParams.elementID
-	} 
+// 	if touchActionParams.elementID != nil {
+// 		opts["element"] = touchActionParams.elementID
+// 	}
 
-	if touchActionParams.x != nil && touchActionParams.y != nil {
-		opts['x'] = touchActionParams.x
-		opts['y'] = touchActionParams.y
-	}
+// 	if touchActionParams.x != nil && touchActionParams.y != nil {
+// 		opts['x'] = touchActionParams.x
+// 		opts['y'] = touchActionParams.y
+// 	}
 
-	if touchActionParams.duration != nil {
-		opts["duration"] = touchActionParams.duration
-	}
+// 	if touchActionParams.duration != nil {
+// 		opts["duration"] = touchActionParams.duration
+// 	}
 
-	return opts
-}
+// 	return opts
+// }

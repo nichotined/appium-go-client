@@ -2,9 +2,10 @@ package webdriver
 
 import (
 	// "encoding/json"
-	"appium-go-client/client"
-	"appium-go-client/jsonutils"
 	"encoding/json"
+
+	"github.com/nichotined/appium-go-client/client"
+	"github.com/nichotined/appium-go-client/jsonutils"
 )
 
 // Driver ...
@@ -28,7 +29,7 @@ func Create(url string, capabilities map[string]interface{}) (driver *Driver) {
 		capabilities,
 		"",
 	}
-	return
+	return driver
 }
 
 func doAppiumRequest(appiumReq *AppiumRequest, c *client.Client, name string) *client.Response {

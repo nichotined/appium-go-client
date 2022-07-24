@@ -4,7 +4,6 @@ import (
 	"fmt"
 )
 
-// statusCodeErrorHandler is used to handle error codes
 func statusCodeErrorHandler(respStatusCode int, errStatusCode int, errString string) {
 	if respStatusCode == errStatusCode {
 		var err error

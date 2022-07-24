@@ -2,7 +2,6 @@ package client
 
 import (
 	"bytes"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 )
@@ -34,9 +33,11 @@ func (c *Client) MakeRequest(method string, reqBody *[]byte, path string) (Respo
 	}
 	req.Header.Set("Content-Type", "application/json")
 	resp, err := c.HTTPClient.Do(req)
+
 	if err != nil {
-		return Response{}, fmt.Errorf("Appium-GO: Error connecting to %s", c.URL)
+		return Response{}, err
 	}
+
 	defer resp.Body.Close()
 
 	respBody, err := ioutil.ReadAll(resp.Body)
